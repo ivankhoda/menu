@@ -3,7 +3,5 @@ namespace :simplecov do
   task :coverage_report do
     require 'simplecov'
     SimpleCov.start 'rails'
-
-    Rake::Task['test'].invoke
   end
 end
