@@ -10,6 +10,10 @@ on:
     branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
+
+env:
+  TELEGRAM: ${{ secrets.TELEGRAM }}
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -45,29 +49,20 @@ jobs:
           POSTGRES_HOST_AUTH_METHOD: trust
           POSTGRES_HOST: db
           RAILS_ENV: test
-          TELEGRAM: ${{ secrets.TELEGRAM }}
         run: |
           cp config/database.yml.github-actions config/database.yml
           bundle exec rake db:create
 
       - name: Run load from schema
-        env:
-          TELEGRAM: ${{ secrets.TELEGRAM }}
         run: RAILS_ENV=test bundle exec rake db:schema:load
 
       - name: Run migrate DB
-        env:
-          TELEGRAM: ${{ secrets.TELEGRAM }}
         run: RAILS_ENV=test bundle exec rake db:migrate
 
       - name: Run create tmp DB
-        env:
-          TELEGRAM: ${{ secrets.TELEGRAM }}
         run: RAILS_ENV=test bundle exec rake tmp:create
 
       - name: Run rspec
-        env:
-          TELEGRAM: ${{ secrets.TELEGRAM }}
         run: |
           COVERAGE=true RAILS_ENV=test bundle exec rspec ./spec
 
@@ -77,8 +72,6 @@ jobs:
           cp -R coverage/.resultset.json coverage_results/.resultset-0.json
 
       - name: Run report_coverage
-        env:
-          TELEGRAM: ${{ secrets.TELEGRAM }}
         run: RAILS_ENV=test bundle exec rake simplecov:coverage_report
 
       - name: Save coverage
