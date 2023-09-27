@@ -51,12 +51,18 @@ jobs:
           bundle exec rake db:create
 
       - name: Run load from schema
+        env:
+          TELEGRAM: ${{ secrets.TELEGRAM }}
         run: RAILS_ENV=test bundle exec rake db:schema:load
 
       - name: Run migrate DB
+        env:
+          TELEGRAM: ${{ secrets.TELEGRAM }}
         run: RAILS_ENV=test bundle exec rake db:migrate
 
       - name: Run create tmp DB
+        env:
+          TELEGRAM: ${{ secrets.TELEGRAM }}
         run: RAILS_ENV=test bundle exec rake tmp:create
 
       - name: Run rspec
