@@ -45,6 +45,7 @@ jobs:
           POSTGRES_HOST_AUTH_METHOD: trust
           POSTGRES_HOST: db
           RAILS_ENV: test
+          TELEGRAM: ${{ secrets.TELEGRAM }}
         run: |
           cp config/database.yml.github-actions config/database.yml
           bundle exec rake db:create
