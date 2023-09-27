@@ -3,7 +3,5 @@ class Dish < ApplicationRecord
 
   before_create :log
 
-  def log
-    pp 'yehey'
-  end
+  def log; end
 end
