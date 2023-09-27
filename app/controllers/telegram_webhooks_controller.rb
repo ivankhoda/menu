@@ -1,7 +1,6 @@
 class TelegramWebhooksController < Telegram::Bot::UpdatesController
   # include Telegram::Bot::UpdatesController::MessageContext
   TG_API = 'https://api.telegram.org/bot'
-  CONFIG = YAML.load_file('./config/secrets.dev.yml')
 
   # Every update has one of: message, inline_query, chosen_inline_result,
   # callback_query, etc.
@@ -31,7 +30,7 @@ class TelegramWebhooksController < Telegram::Bot::UpdatesController
     callback_query_answer_handler(data)
   end
 
-  def callback_query_answer_handler(data, _username=nil)
+  def callback_query_answer_handler(data, _username = nil)
     case data
     when 'one_dish'
       reply_with :message, text: Dish.all.sample.name
