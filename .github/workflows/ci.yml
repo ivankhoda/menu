@@ -73,6 +73,8 @@ jobs:
 
       - name: Run report_coverage
         run: RAILS_ENV=test bundle exec rake simplecov:coverage_report
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Save coverage
         uses: actions/upload-artifact@v3
