@@ -66,6 +66,8 @@ jobs:
         run: RAILS_ENV=test bundle exec rake tmp:create
 
       - name: Run rspec
+        env:
+          TELEGRAM: ${{ secrets.TELEGRAM }}
         run: |
           COVERAGE=true RAILS_ENV=test bundle exec rspec ./spec
 
@@ -75,6 +77,8 @@ jobs:
           cp -R coverage/.resultset.json coverage_results/.resultset-0.json
 
       - name: Run report_coverage
+        env:
+          TELEGRAM: ${{ secrets.TELEGRAM }}
         run: RAILS_ENV=test bundle exec rake simplecov:coverage_report
 
       - name: Save coverage
