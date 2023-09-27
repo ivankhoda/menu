@@ -1,0 +1,6 @@
+ignore_files:
+  - app/channels/application_cable/channel.rb
+  - app/channels/application_cable/connection.rb
+  - app/mailers/*.*
+  - app/jobs/application_job.rb
+  - app/mailers/application_mailer.rb

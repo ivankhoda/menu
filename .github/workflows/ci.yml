@@ -1,0 +1,78 @@
+# This workflow uses actions that are not certified by GitHub.  They are
+# provided by a third-party and are governed by separate terms of service,
+# privacy policy, and support documentation.
+#
+# This workflow will install a prebuilt Ruby version, install dependencies, and
+# run tests and linters.
+name: "Ruby on Rails CI"
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    container:
+      image: ivankhoda/menu:latest
+      credentials:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    services:
+      db:
+        image: postgres
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_DB: menu
+          POSTGRES_HOST_AUTH_METHOD: trust
+          POSTGRES_HOST: db
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: run bundle install
+        run: bundle install --jobs=8 --path vendor/bundle
+
+      - name: Create DB
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_DB: menu
+          POSTGRES_HOST_AUTH_METHOD: trust
+          POSTGRES_HOST: db
+          RAILS_ENV: test
+        run: |
+          cp config/database.yml.github-actions config/database.yml
+          bundle exec rake db:create
+
+      - name: Run load from schema
+        run: RAILS_ENV=test bundle exec rake db:schema:load
+
+      - name: Run migrate DB
+        run: RAILS_ENV=test bundle exec rake db:migrate
+
+      - name: Run create tmp DB
+        run: RAILS_ENV=test bundle exec rake tmp:create
+
+      - name: Run rspec
+        run: |
+          COVERAGE=true RAILS_ENV=test bundle exec rspec ./spec
+
+      - name: Stash Coverage Results
+        run: |
+          mkdir coverage_results
+          cp -R coverage/.resultset.json coverage_results/.resultset-0.json
+
+      - name: Run report_coverage
+        run: RAILS_ENV=test bundle exec rake simplecov:coverage_report
+
+      - name: Save coverage
+        uses: actions/upload-artifact@v3
+        if: success() || failure()
+        with:
+          name: coverage
+          path: ./coverage
