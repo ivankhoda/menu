@@ -32,6 +32,7 @@ module Menu
     # config.eager_load_paths << Rails.root.join("extras")
 
     # Don't generate system test files.
+    pp(ENV)
     config.generators.system_tests = nil
   end
 end
