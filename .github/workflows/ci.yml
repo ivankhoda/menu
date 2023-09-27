@@ -23,7 +23,7 @@ jobs:
       db:
         image: postgres
         env:
-          POSTGRES_USER: postgres
+          POSTGRES_USER: root
           POSTGRES_DB: menu
           POSTGRES_HOST_AUTH_METHOD: trust
           POSTGRES_HOST: db
@@ -40,7 +40,7 @@ jobs:
 
       - name: Create DB
         env:
-          POSTGRES_USER: postgres
+          POSTGRES_USER: root
           POSTGRES_DB: menu
           POSTGRES_HOST_AUTH_METHOD: trust
           POSTGRES_HOST: db
