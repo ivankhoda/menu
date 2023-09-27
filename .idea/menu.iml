@@ -41,6 +41,7 @@
     <orderEntry type="library" scope="PROVIDED" name="crass (v1.0.6, Remote: ruby-3.2.2 (-p53 (2)) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="debug (v1.8.0, Remote: ruby-3.2.2 (-p53 (2)) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="diff-lcs (v1.5.0, Remote: ruby-3.2.2 (-p53 (2)) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="docile (v1.4.0, Remote: ruby-3.2.2 (-p53 (2)) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="erubi (v1.12.0, Remote: ruby-3.2.2 (-p53 (2)) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="factory_bot (v6.2.1, Remote: ruby-3.2.2 (-p53 (2)) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="factory_bot_rails (v6.2.0, Remote: ruby-3.2.2 (-p53 (2)) [gem]" level="application" />
@@ -93,6 +94,9 @@
     <orderEntry type="library" scope="PROVIDED" name="rubocop (v1.56.3, Remote: ruby-3.2.2 (-p53 (2)) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rubocop-ast (v1.29.0, Remote: ruby-3.2.2 (-p53 (2)) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="ruby-progressbar (v1.13.0, Remote: ruby-3.2.2 (-p53 (2)) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="simplecov (v0.22.0, Remote: ruby-3.2.2 (-p53 (2)) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="simplecov-html (v0.12.3, Remote: ruby-3.2.2 (-p53 (2)) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="simplecov_json_formatter (v0.1.4, Remote: ruby-3.2.2 (-p53 (2)) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sprockets (v4.2.1, Remote: ruby-3.2.2 (-p53 (2)) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sprockets-rails (v3.4.2, Remote: ruby-3.2.2 (-p53 (2)) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="stimulus-rails (v1.2.2, Remote: ruby-3.2.2 (-p53 (2)) [gem]" level="application" />
