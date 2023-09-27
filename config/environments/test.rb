@@ -4,8 +4,9 @@ require 'active_support/core_ext/integer/time'
 # test suite. You never need to work with it otherwise. Remember that
 # your test database is "scratch space" for the test suite and is wiped
 # and recreated between test runs. Don't rely on the data there!
-
-Telegram.bots_config = { default: Rails.application.secrets.telegram[:bot][:token] || ENV.fetch('TELEGRAM') } 
+unless Rails.application.secrets.telegram.present?
+  Telegram.bots_config = { default: ENV.fetch('TELEGRAM') }
+end
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
   # Turn false under Spring and add config.action_view.cache_template_loading = true.
