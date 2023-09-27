@@ -4,6 +4,6 @@ namespace :simplecov do
     require 'simplecov'
     SimpleCov.start 'rails'
 
-    Rake::Task['spec'].invoke
+    Rake::Task['test'].invoke
   end
 end
