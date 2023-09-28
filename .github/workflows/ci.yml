@@ -80,4 +80,3 @@ jobs:
         with:
           name: coverage
           path: ./coverage
-          github_token: ${{ secrets.GH_ACTIONS_TOKEN }}
