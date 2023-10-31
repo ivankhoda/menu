@@ -1,5 +1,7 @@
 require "active_support/core_ext/integer/time"
 
+Telegram.bots_config = { default: ENV.fetch('TELEGRAM') } unless Rails.application.secrets.telegram.present?
+
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 

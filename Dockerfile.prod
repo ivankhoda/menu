@@ -1,0 +1,18 @@
+FROM ruby:3.2
+
+LABEL maintainer=ivankhoda@ya.ru
+RUN apt-get update -yqq && apt-get install -yqq --no-install-recommends netcat-traditional nodejs yarn
+
+
+COPY Gemfile* /usr/src/app/
+WORKDIR /usr/src/app
+RUN bundle install
+
+COPY . /usr/src/app
+RUN ["chmod", "+x", "/usr/src/app/wait-for.sh"]
+
+
+#ENV BUNDLE_PATH /gems
+ENTRYPOINT ["./docker-entrypoint.sh"]
+CMD bin/rails s -b 0.0.0.0
+

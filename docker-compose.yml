@@ -11,6 +11,18 @@ services:
     env_file:
       - .env/development/database
       - .env/development/web
+    networks:
+      - menu
+  nginx:
+    build: .
+    image: nginx:alpine
+    ports:
+      - "81:80"
+      - "82:81"
+    volumes:
+        - ./docker/nginx/menu.conf:/etc/nginx/conf.d/menu.conf
+    networks:
+      - menu
   redis:
     image: redis
 
@@ -25,3 +37,8 @@ services:
 volumes:
   db_data:
   gem_cache:
+
+networks:
+  menu:
+    driver: overlay
+    attachable: true
