@@ -3,33 +3,43 @@ version: '3'
 services:
   web:
     image: ivankhoda/menu:prod
-#    ports:
-#      - "80:3000"
+    ports:
+      - "3000:3000"
     env_file:
       - .env/production/database
       - .env/production/web
       - .env/production/telegram
+    networks:
+      - menu
 
   nginx:
-    image: nginx:alpine
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-          - ./nginx.conf:/etc/nginx/nginx.conf
-#          - .:/usr/src/app/nginx/conf.d/ :/etc/nginx/conf.d/
-#        - .:/var/lib/nginx/data
-
+        image: ivankhoda/nginx:prod
+        ports:
+          - "81:80"
+          - "82:81"
+    #      - "444:443"
+    #      - "445:444"
+    #    volumes:
+    #        - ./nginx/conf/:/etc/nginx/conf.d/:ro
+    #        - ./certbot/www/:/var/www/certbot/:ro
+    #        - ./docker/nginx/menu.conf:/etc/nginx/conf.d/menu.conf
+    #        - ./docker/nginx/app.conf:/etc/nginx/conf.d/app.conf
+        networks:
+          - menu
   redis:
     image: redis
+    networks:
+      - menu
 
   database:
-    image: postgres:alpine
+    image: postgres:16-alpine
     env_file:
       - .env/production/database
       - .env/production/web
     volumes:
       - db_data:/var/lib/postgresql/data
+    networks:
+      - menu
 
   db-creator:
       image: ivankhoda/menu:prod
@@ -40,6 +50,8 @@ services:
       deploy:
         restart_policy:
           condition: none
+      networks:
+        - menu
 
   db-migrator:
       image: ivankhoda/menu:prod
@@ -52,12 +64,14 @@ services:
           condition: none
       depends_on:
         - db-creator
+      networks:
+        - menu
 
 volumes:
   db_data:
 
 #Docker Networks
 networks:
-  app-network:
-    driver: bridge
-
+  menu:
+    driver: overlay
+    attachable: true
