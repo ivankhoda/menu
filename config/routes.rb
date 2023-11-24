@@ -4,4 +4,7 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "articles#index"
   telegram_webhook TelegramWebhooksController
+
+  # devise_for :admins, controllers: { sessions: 'admins/sessions',
+  #                                    registrations: 'admins/registrations' }
 end

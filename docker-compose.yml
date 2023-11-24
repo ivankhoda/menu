@@ -13,24 +13,14 @@ services:
       - .env/development/web
     networks:
       - menu
-  nginx:
-    build: .
-    image: nginx:alpine
-    ports:
-      - "81:80"
-      - "82:81"
-      - "444:443"
-      - "445:444"
-    volumes:
-        - ./docker/nginx/menu_dev.conf:/etc/nginx/conf.d/menu_dev.conf
-        - ./config/server.crt:/etc/nginx/ssl/certs/server.crt
-        - ./config/server.key:/etc/nginx/ssl/certs/server.key
-    networks:
-      - menu
-
+    depends_on:
+      - database
+      - redis
 
   redis:
     image: redis
+    ports:
+      - "6379:6379"
     networks:
       - menu
 

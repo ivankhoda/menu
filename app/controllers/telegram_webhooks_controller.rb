@@ -1,29 +1,39 @@
 class TelegramWebhooksController < Telegram::Bot::UpdatesController
-  # include Telegram::Bot::UpdatesController::MessageContext
-  TG_API = 'https://api.telegram.org/bot'
-
-  # Every update has one of: message, inline_query, chosen_inline_result,
-  # callback_query, etc.
-  # Define method with the same name to handle this type of update.
+  include Telegram::Bot::UpdatesController::Session
+  include Telegram::Bot::UpdatesController::MessageContext
 
   def start!
-    reply_with :message, text: 'Добро пожаловать в бот.', reply_markup: {
+    reply_with :message, text: 'Добро пожаловать в бот. Чтобы начать используйте команды', reply_markup: {
       inline_keyboard: [
         [
-          { text: 'Блюдо на день', callback_data: 'one_dish' }
+          { text: 'Блюдо на день - случайное блюдо', callback_data: 'one_dish' }
+        ],
+        [
+          { text: '/new название блюда -  для создания нового блюда', callback_data: 'new_dish' }
         ]
       ]
     }
   end
 
   def message(_message)
-    respond_with :message, text: Dish.all.sample.name, reply_markup: {
-      inline_keyboard: [
-        [
-          { text: 'Registration', callback_data: 'registration' }
-        ]
-      ]
-    }
+    response = Dish.user_dish(user).sample.name || 'Ничего не найдено'
+    respond_with :message, text: response
+  end
+
+  def new!(*args)
+    if args.present?
+      name = args.join(' ')
+      d = Dish.new(name: name, telegram_user: user)
+      if d.save
+        reply_with :message, text: "Блюдо #{d.name} сохранено"
+      else
+        reply_with :message, text: 'Что-то пошло не так'
+      end
+
+    else
+      save_context(:new!)
+      respond_with :message, text: 'Введите название'
+    end
   end
 
   def callback_query(data)
@@ -34,12 +44,19 @@ class TelegramWebhooksController < Telegram::Bot::UpdatesController
     case data
     when 'one_dish'
       reply_with :message, text: Dish.all.sample.name
+    when 'new_dish'
+      save_context :new!
+      respond_with :message, text: 'Введите название'
     else
       reply_with :message, text: 'Not found command'
     end
   end
 
   private
+
+  def user
+    TelegramUser.find_or_create_by(telegram_id: from['id'])
+  end
 
   def username
     upd = HashWithIndifferentAccess.new(update)

@@ -89,7 +89,7 @@ Rails.application.configure do
     logger.formatter = config.log_formatter
     config.logger    = ActiveSupport::TaggedLogging.new(logger)
   end
-
+  config.telegram_updates_controller.session_store = :redis_store, { expires_in: 1.hour, key: '_application_session' }
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 end

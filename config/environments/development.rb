@@ -70,15 +70,7 @@ Rails.application.configure do
   # config.action_cable.disable_request_forgery_protection = true
 
   config.hosts << /[a-z0-9-]+\.ngrok-free\.app/
-  # config.telegram_updates_controller.session_store = :redis_store, { expires_in: 1.month }
+  config.telegram_updates_controller.session_store = :redis_store, { expires_in: 1.hour, key: '_application_session', servers: ['redis://localhost:6379/0/session'] }
   routes.default_url_options = { host: ENV['test_url'], protocol: 'https' }
   config.web_console.permissions = '91.108.6.80'
-  # tg_conf = YAML.load_file('config/secrets.dev.yml')
-  # Telegram.bots_config = {
-  #   default: '5397508359:AAE7IUaDiAAu5MHOVV6JR4_4R-rgbQE__Q0',
-  #   chat: {
-  #     token: ENV['test_token'],
-  #     username: ENV['test_username']
-  #   }
-  # }
 end

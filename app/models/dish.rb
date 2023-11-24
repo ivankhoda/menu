@@ -1,7 +1,7 @@
 class Dish < ApplicationRecord
   validates :name, presence: true
 
-  before_create :log
+  belongs_to :telegram_user
 
-  def log; end
+  scope :user_dish, ->(user) { where(telegram_user: user) }
 end

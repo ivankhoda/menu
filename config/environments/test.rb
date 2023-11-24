@@ -58,4 +58,5 @@ Rails.application.configure do
   # Annotate rendered view with file names.
   # config.action_view.annotate_rendered_view_with_filenames = true
   Telegram::Bot::ClientStub.stub_all!
+  config.telegram_updates_controller.session_store = :redis_store
 end
